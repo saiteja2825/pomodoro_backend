@@ -45,7 +45,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://pomodoro-frontend-eight.vercel.app")); // your frontend
+
+        // Read frontend URL(s) from environment variable
+        String frontendUrl = System.getenv("CORS_ALLOWED_ORIGINS");
+        if (frontendUrl != null) {
+            configuration.setAllowedOrigins(List.of(frontendUrl.split(","))); // support multiple URLs
+        } else {
+            // fallback for local dev
+            configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        }
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
