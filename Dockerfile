@@ -18,7 +18,7 @@ RUN mvn clean package -DskipTests
 # ----------------------------
 # Stage 2: Run the Pomodoro Spring Boot app
 # ----------------------------
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
